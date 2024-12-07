@@ -1,8 +1,8 @@
 const asyncHandler = (func) => {
-    (req, res, next) => {
+   return (req, res, next) => {
         Promise.resolve(func(req, res, next))
         .catch(err => {
-          next(err)  // would pass the error to the next middleware in the chain that is going to be a errorhandling middleware.
+          next(err)  // would pass the error to the next middleware which is a errorhandling middleware.
         })
   }}
 
