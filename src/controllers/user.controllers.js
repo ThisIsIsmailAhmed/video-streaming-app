@@ -1,7 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
-import { apiError } from "../utils/apiError.js"
+import { ApiError } from "../utils/apiError.js"
 import userModel from "../models/user.model.js"
-import uploadFile from "../utils.cloudinary.sdk.js"
+import uploadFile from "../utils/cloudinary.sdk.js"
+import { ApiResponse } from "../utils/apiResponse.js"
 
 const registerUser = asyncHandler(async (req, res) => {
 
@@ -12,14 +13,14 @@ const registerUser = asyncHandler(async (req, res) => {
             field?.trim() === ""
         }) 
     ){
-      throw new apiError(401, "all fields are required")  
+      throw new ApiError(401, "all fields are required")  
     }
 
  let user =   await userModel.findOne({
       $or: [{username : username}, {email: email}]    
 })
     if(user){
-        throw new apiError(401, "user already exists")
+        throw new ApiError(401, "user already exists")
     }
 
 const avatarPath = req.files?.avatar[0]?.path
@@ -39,6 +40,14 @@ const createdUser = await userModel.create({
     avatar: avatar.url,
     coverImage: coverImage?.url || ""
 })
+
+const response = await userModel.findById(createdUser._id).select("-password -refreshToken")
+
+if(!response){
+    throw new ApiError(500, "user not found")
+}
+
+return new ApiResponse(200, response)
 
 })
 

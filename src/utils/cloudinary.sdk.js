@@ -20,7 +20,7 @@ const uploadFile = async function(localFilePath){
     }
 }
 
-export { uploadFile }
+export default uploadFile
 
 
 
