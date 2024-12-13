@@ -2,11 +2,11 @@ const asyncHandler = (func) => {
    return (req, res, next) => {
         Promise.resolve(func(req, res, next))
         .catch(err => {
-          next(err)  // would pass the error to the next middleware which is a errorhandling middleware.
+          next(err)  // would pass the error to the next middleware which is preferabely going to be an errorhandling middleware.
         })
   }}
 
-  export {asyncHandler}
+  export  { asyncHandler }
 
 
 
