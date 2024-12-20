@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
-    fullname: {
+    fullName: {
         type: String,
         required: true,
         trim: true,
@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true})
 
 userSchema.pre("save", async function(next){
-    if(isModified("password")){
+    if(this.isModified("password")){
         this.password = await bcrypt.hash(this.password, 10)
         next()
     }else{
@@ -56,10 +56,10 @@ userSchema.pre("save", async function(next){
 })
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-    return await bcrypt.compare(this.password, password)
+    return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessTOken = function() {
+userSchema.methods.generateAccessToken = function() {
     return jwt.sign(
         { 
             id : this._id,
