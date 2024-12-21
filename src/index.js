@@ -7,6 +7,8 @@ dotenv.config({
   path: "./.env"
 })
 
+
+
 DB_CONNECTION()
 .then( () => {
   app.on("error", (err) => {
