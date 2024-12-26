@@ -2,6 +2,7 @@ import { Router } from "express"
 import { registerUser } from "../controllers/user.controllers.js"
 import { logoutUser } from "../controllers/user.controllers.js"
 import { loginUser } from "../controllers/user.controllers.js"
+import { refreshAccessToken } from "../controllers/user.controllers.js"
 import upload from "../middlewares/multer.middleware.js"
 import validateJwt from "../middlewares/auth.middleware.js"
 
@@ -26,6 +27,7 @@ router.route("/register").post(
 
 router.route("/login").post(loginUser)
 
+router.route("/refresh-token").post(refreshAccessToken)
 
 router.route("/logout").post(
     validateJwt
