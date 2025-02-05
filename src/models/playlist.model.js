@@ -9,10 +9,12 @@ const playListSchema = new Schema({
     description: {
         type: String,
     },
-    videos: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "video"
-    },
+    videos:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "video"
+        }
+    ],
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"

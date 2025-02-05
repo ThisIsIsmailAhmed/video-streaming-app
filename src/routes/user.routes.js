@@ -8,6 +8,8 @@ import { loggedInUsersDetails } from "../controllers/user.controllers.js"
 import { updateUserAvatar } from "../controllers/user.controllers.js"
 import { updateUserCoverImage } from "../controllers/user.controllers.js"
 import { updateUserDetails } from "../controllers/user.controllers.js"
+import { getWatchHistory } from "../controllers/user.controllers.js"
+import { userPage } from "../controllers/user.controllers.js"
 import upload from "../middlewares/multer.middleware.js"
 import validateJwt from "../middlewares/auth.middleware.js"
 
@@ -49,7 +51,9 @@ router.route("/update-cover-image").patch(validateJwt, upload.single("coverImage
 
 router.route("/update-user-details").patch(validateJwt, updateUserDetails)
 
+router.route("/channel/:username").get(validateJwt, userPage)
 
+router.route("/history").get(validateJwt, getWatchHistory)
 
 export default router
 

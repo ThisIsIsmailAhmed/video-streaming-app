@@ -24,7 +24,30 @@ const uploadFile = async function(localFilePath){
     }
 }
 
-export default uploadFile
+
+const deleteFile = async function(fileUrl) {
+    try {
+      // Extract the public ID from the Cloudinary URL
+      const publicId = extractPublicIdFromUrl(fileUrl);
+      
+      // Delete the file using the destroy method
+      const result = await cloudinary.uploader.destroy(publicId, { resource_type: 'auto' });
+      
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      throw error;
+    }
+}
+  
+  // Helper function to extract public ID from Cloudinary URL
+  function extractPublicIdFromUrl(url) {
+    // Implement logic to extract public ID from URL
+    // This will depend on your URL structure
+  }
+
+export {uploadFile, deleteFile}
 
 
 

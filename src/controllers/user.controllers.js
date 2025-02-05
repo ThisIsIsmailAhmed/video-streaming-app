@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/apiError.js"
 import userModel from "../models/user.model.js"
-import uploadFile from "../utils/cloudinary.sdk.js"
+import { uploadFile } from "../utils/cloudinary.sdk.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
@@ -125,8 +125,8 @@ const loginUser = asyncHandler(async (req, res) => {
 const logoutUser = asyncHandler(async (req, res) => {
     const user = await userModel.findByIdAndUpdate(req.user._id,
         {
-            $set: {
-                refreshToken: undefined
+            $unset: {
+                refreshToken: 1
             }
         },
         {
@@ -290,6 +290,11 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         throw new ApiError(401, "avatar file is required")
     }
 
+        //TODO: delete old image - assignment
+
+    
+
+
     let avatar = await uploadFile(avatarPath)
 
     if(!avatar.url){
@@ -409,6 +414,11 @@ const userPage = asyncHandler(async (req, res) => {
             }
         }
     ])
+
+    if (!channel?.length) {
+        throw new ApiError(404, "channel does not exists")
+    }
+
 
     return res.status(200)
     .json(new ApiResponse(
